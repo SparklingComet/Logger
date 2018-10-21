@@ -81,9 +81,9 @@ public class Logger {
 		return String.format("[%s] %s%s%s%s",
 				mode.name(),
 				name != null ? "[" + name + "] " : "",
-				time ? timestr : "",
-				time && date ? ' ' : "",
 				date ? datestr : "");
+				time && date ? ' ' : "",
+				time ? timestr : "",
 	}
 
 	public void log(String msg) {
@@ -100,7 +100,7 @@ public class Logger {
 
 	public void log(String msg, Mode mode, boolean debug) {
 		if (!debug && mode == Mode.DEBUG);
-		else out.println(String.format("%s %s", header(mode), msg));
+		else out.println(String.format("%s:  %s", header(mode), msg));
 	}
 
 	public Mode getMode() {
