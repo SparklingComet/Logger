@@ -81,9 +81,9 @@ public class Logger {
 		return String.format("[%s] %s%s%s%s",
 				mode.name(),
 				name != null ? "[" + name + "] " : "",
-				date ? datestr : "");
+				date ? datestr : "",
 				time && date ? ' ' : "",
-				time ? timestr : "",
+				time ? timestr : "");
 	}
 
 	public void log(String msg) {
