@@ -46,3 +46,7 @@ The following modes are available:
 
 ## Documentation
 Javadocs in progress.
+
+# ToDo
+* Javadoc
+* Date & Time custom format
