@@ -76,8 +76,8 @@ public class Logger {
 
 	protected String header(Mode mode) {
 		String datetime = new Date().toString();
-		String datestr = datetime.substring(0, 10);
-		String timestr = datetime.substring(11);
+		String datestr = datetime.substring(0, 11) + datetime.substring(datetime.length() - 4);
+		String timestr = datetime.substring(11, datetime.length() - 5);
 		return String.format("[%s] %s%s%s%s",
 				mode.name(),
 				name != null ? "[" + name + "] " : "",
