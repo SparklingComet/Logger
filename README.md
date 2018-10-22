@@ -39,10 +39,10 @@ Example:
 ```
 Several more options and parameters are available, ie. if one does not wish to print the date or the time.
 The following modes are available:
-* INFO for general logging purposes;
-* DEBUG for debugging, there is a switch that turns it off so one does not need complicated conditional statements to print out information when on debug mode;
-* WARNING to warn the user about problems that have a negative impact on the application, but which do not impede its most simple functions;
-* ERROR for severe disturbances which stop the application from functioning correctly. (Crash logs, stacktraces, runtime errors...).
+* `INFO` for general logging purposes;
+* `DEBUG` for debugging, there is a switch that turns it off so one does not need complicated conditional statements to print out information when on debug mode;
+* `WARNING` to warn the user about problems that have a negative impact on the application, but which do not impede its most simple functions;
+* `ERROR` for severe disturbances which stop the application from functioning correctly. (Crash logs, stacktraces, runtime errors...).
 
 ## Documentation
 Javadocs in progress.
