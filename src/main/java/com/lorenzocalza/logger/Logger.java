@@ -6,7 +6,7 @@ import java.util.Date;
 @SuppressWarnings("unused")
 public class Logger {
 
-	private Mode mode;
+	private LoggerMode mode;
 	private boolean time;
 	private boolean date;
 	private PrintStream out;
@@ -14,83 +14,88 @@ public class Logger {
 
 	private boolean debug;
 
-	public Logger(Mode mode) {
-		this.mode = mode;
-		this.time = this.date = false;
-		this.out = System.out;
-	}
-
-	public Logger(Mode mode, String name) {
-		this.mode = mode;
-		this.time = this.date = false;
-		this.out = System.out;
-		this.name = name;
-	}
-
-	public Logger(Mode mode, boolean time) {
-		this.mode = mode;
-		this.time = time;
-		this.date = false;
-		this.out = System.out;
-	}
-
-	public Logger(Mode mode, boolean time, String name) {
-		this.mode = mode;
-		this.time = time;
-		this.date = false;
-		this.out = System.out;
-		this.name = name;
-	}
-
-	public Logger(Mode mode, boolean time, boolean date) {
-		this.mode = mode;
-		this.time = time;
-		this.date = date;
-		this.out = System.out;
-	}
-
-	public Logger(Mode mode, boolean time, boolean date, String name) {
-		this.mode = mode;
-		this.time = time;
-		this.date = date;
-		this.out = System.out;
-		this.name = name;
-	}
-
-	public Logger(Mode mode, boolean time, boolean date, PrintStream out) {
-		this.mode = mode;
-		this.time = time;
-		this.date = date;
-		this.out = out;
-		this.out = System.out;
-	}
-
-	public Logger(Mode mode, boolean time, boolean date, String name, PrintStream out) {
-		this.mode = mode;
-		this.time = time;
-		this.date = date;
-		this.out = out;
-		this.out = System.out;
-		this.name = name;
-	}
-
-	protected String header(Mode mode) {
-		String datetime = new Date().toString();
-		String datestr = datetime.substring(0, 11) + datetime.substring(datetime.length() - 4);
-		String timestr = datetime.substring(11, datetime.length() - 5);
-		return String.format("[%s] %s%s%s%s",
+	private MessageFormat msgFormat = (name, datestr, timestr, message, custom) -> {
+		return String.format("[%s] %s%s%s%s : %s",
 				mode.name(),
 				name != null ? "[" + name + "] " : "",
 				date ? datestr : "",
 				time && date ? ' ' : "",
-				time ? timestr : "");
+				time ? timestr : "",
+				message);
+	};
+
+	public Logger(LoggerMode mode) {
+		this.mode = mode;
+		this.time = this.date = false;
+		this.out = System.out;
+	}
+
+	public Logger(LoggerMode mode, String name) {
+		this.mode = mode;
+		this.time = this.date = false;
+		this.out = System.out;
+		this.name = name;
+	}
+
+	public Logger(LoggerMode mode, boolean time) {
+		this.mode = mode;
+		this.time = time;
+		this.date = false;
+		this.out = System.out;
+	}
+
+	public Logger(LoggerMode mode, boolean time, String name) {
+		this.mode = mode;
+		this.time = time;
+		this.date = false;
+		this.out = System.out;
+		this.name = name;
+	}
+
+	public Logger(LoggerMode mode, boolean time, boolean date) {
+		this.mode = mode;
+		this.time = time;
+		this.date = date;
+		this.out = System.out;
+	}
+
+	public Logger(LoggerMode mode, boolean time, boolean date, String name) {
+		this.mode = mode;
+		this.time = time;
+		this.date = date;
+		this.out = System.out;
+		this.name = name;
+	}
+
+	public Logger(LoggerMode mode, boolean time, boolean date, PrintStream out) {
+		this.mode = mode;
+		this.time = time;
+		this.date = date;
+		this.out = out;
+		this.out = System.out;
+	}
+
+	public Logger(LoggerMode mode, boolean time, boolean date, String name, PrintStream out) {
+		this.mode = mode;
+		this.time = time;
+		this.date = date;
+		this.out = out;
+		this.out = System.out;
+		this.name = name;
+	}
+
+	protected String header(LoggerMode mode, String msg) {
+		String datetime = new Date().toString();
+		String datestr = datetime.substring(0, 11) + datetime.substring(datetime.length() - 4);
+		String timestr = datetime.substring(11, datetime.length() - 5);
+		return msgFormat.message(mode.name(), datestr, timestr, msg,null);
 	}
 
 	public void log(String msg) {
 		log(msg, mode, false);
 	}
 
-	public void log(String msg, Mode mode) {
+	public void log(String msg, LoggerMode mode) {
 		log(msg, mode, false);
 	}
 
@@ -98,16 +103,16 @@ public class Logger {
 		log(msg, mode, false);
 	}
 
-	public void log(String msg, Mode mode, boolean debug) {
-		if (!debug && mode == Mode.DEBUG);
-		else out.println(String.format("%s:  %s", header(mode), msg));
+	public void log(String msg, LoggerMode mode, boolean debug) {
+		if (!debug && mode == LoggerMode.DEBUG);
+		else out.println(header(mode, msg));
 	}
 
-	public Mode getMode() {
+	public LoggerMode getMode() {
 		return mode;
 	}
 
-	public void setMode(Mode mode) {
+	public void setMode(LoggerMode mode) {
 		this.mode = mode;
 	}
 
@@ -143,10 +148,12 @@ public class Logger {
 		this.name = name;
 	}
 
-	public enum Mode {
-		DEBUG,
-		INFO,
-		WARNING,
-		ERROR
+	public MessageFormat getMsgFormat() {
+		return msgFormat;
+	}
+
+	public void setMsgFormat(MessageFormat msgFormat) {
+		if (msgFormat == null) throw new IllegalArgumentException("MessageFormat cannot be null!");
+		this.msgFormat = msgFormat;
 	}
 }
