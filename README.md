@@ -50,5 +50,3 @@ Javadocs in progress.
 # ToDo
 * Javadoc
 * Date & Time custom format
-* Custom output format
-* Custom OutputStream
